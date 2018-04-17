@@ -37,8 +37,8 @@ kubectl apply -f metallb/
 
 ```
 [k8s-as-a-service/tenant-a]$ kubectl cluster-info
-Kubernetes master is running at https://172.18.201.101:6443
-CoreDNS is running at https://172.18.201.101:6443/api/v1/namespaces/kube-system/services/core-dns/proxy
+Kubernetes master is running at https://k8s-as-a-service:6443
+CoreDNS is running at https://k8s-as-a-service:6443/api/v1/namespaces/kube-system/services/core-dns/proxy
 
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 [k8s-as-a-service/default]$ kubectl get nodes -o wide
@@ -81,10 +81,11 @@ kubectl get deployment,pod,service,configmap,etcdcluster -o wide
 ```bash
 # [k8s-as-a-service/tenant-a]
 cd ${GOPATH}/src/github/yuanying/kubernetes-chart-demo
-source address-env.sh
+source env.sh
 bash ../kubernetes-chart/scripts/render-certs.sh
 bash ../kubernetes-chart/scripts/render-secrets.sh
 kubectl apply -f ../kubernetes-chart/secrets/
+kubectl get secrets
 ```
 
 #### Install k8s control plane
@@ -121,10 +122,10 @@ bash ../kubernetes-chart/scripts/bootstrap.sh
 
 ```bash
 ssh ubuntu@ubuntu-worker01
-kubeadm join --token xxxxxx.xxxxxxxxxxxxxxx 172.18.202.101:443 --discovery-token-unsafe-skip-ca-verification
+kubeadm join --token xxxxxx.xxxxxxxxxxxxxxxx demo-kubernetes:443 --discovery-token-unsafe-skip-ca-verification
 exit
-ssh ubuntu@ubuntu-worker01
-kubeadm join --token xxxxxx.xxxxxxxxxxxxxxx 172.18.202.101:443 --discovery-token-unsafe-skip-ca-verification
+ssh ubuntu@ubuntu-worker02
+kubeadm join --token xxxxxx.xxxxxxxxxxxxxxxx demo-kubernetes:443 --discovery-token-unsafe-skip-ca-verification
 exit
 ```
 
@@ -133,6 +134,7 @@ exit
 ```bash
 # [tenant-a/default]
 kubectl get nodes -o wide
+kubectl get pod -o wide --all-namespaces
 ```
 
 ### Deploy nginx to tenant k8s cluster

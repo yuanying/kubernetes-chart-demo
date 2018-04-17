@@ -8,6 +8,7 @@ ROOT=$(dirname "${BASH_SOURCE}")
 LOCAL_KUBE_CERTS_DIR="${ROOT}/../kubernetes-chart/certs"
 
 KUBE_API_SERVICE_EXTERNAL_IP=${KUBE_API_SERVICE_EXTERNAL_IP:-"192.168.11.101"}
+KUBE_API_SERVICE_EXTERNAL_FQDN=${KUBE_API_SERVICE_EXTERNAL_FQDN:-${KUBE_API_SERVICE_EXTERNAL_IP}}
 
 KUBE_ADMIN_KUBECONFIG=${KUBE_ADMIN_KUBECONFIG:-"${ROOT}/admin.yaml"}
 
@@ -26,7 +27,7 @@ clusters:
 - name: kubernetes
   cluster:
     certificate-authority-data: ${CA_DATA}
-    server: https://${KUBE_API_SERVICE_EXTERNAL_IP}:443
+    server: https://${KUBE_API_SERVICE_EXTERNAL_FQDN}:443
 users:
 - name: admin
   user:
