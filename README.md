@@ -35,6 +35,8 @@ kubectl apply -f metallb/
 
 ### Confirm KaaS Environment
 
+#### Confirm kaas provided Kubernetes
+
 ```
 [k8s-as-a-service/tenant-a]$ kubectl cluster-info
 Kubernetes master is running at https://k8s-as-a-service:6443
@@ -56,6 +58,13 @@ etcd-operator    Active    6d
 kube-public      Active    6d
 kube-system      Active    6d
 metallb-system   Active    6d
+```
+
+#### Confirm tenant VMs
+
+```bash
+ping ubuntu-worker01
+ping ubuntu-worker02
 ```
 
 ### Create tenant namespace
