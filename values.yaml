@@ -14,4 +14,6 @@ scheduler:
   replicaCount: 1
 
 etcdCluster:
-  replicaCount: 1
+  size: 1
+  annotations:
+    etcd.database.coreos.com/scope: clusterwide
